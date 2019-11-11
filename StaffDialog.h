@@ -29,6 +29,7 @@ private slots:
     void on_but_del_clicked();
     void on_but_add_clicked();
     void on_but_cal_clicked();
+    void on_box_unit_activated(int index);
 
 private:
     Ui::StaffDialog *ui;

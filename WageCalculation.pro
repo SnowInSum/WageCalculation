@@ -20,18 +20,21 @@ SOURCES += \
     SqlDatabase.cpp \
     StaffDialog.cpp \
     main.cpp \
-    WageCalculation.cpp
+    WageCalculation.cpp \
+    OutputDataDialog.cpp
 
 HEADERS += \
     PriceDialog.h \
     SqlDatabase.h \
     StaffDialog.h \
-    WageCalculation.h
+    WageCalculation.h \
+    OutputDataDialog.h
 
 FORMS += \
     PriceDialog.ui \
     StaffDialog.ui \
-    WageCalculation.ui
+    WageCalculation.ui \
+    OutputDataDialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

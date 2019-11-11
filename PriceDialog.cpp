@@ -7,6 +7,7 @@ PriceDialog::PriceDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setFixedSize(460, 135);
+    this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
 
     sql = SqlDatabase::getInstance();
 }
@@ -47,4 +48,9 @@ void PriceDialog::on_but_add_clicked()
 void PriceDialog::on_but_cal_clicked()
 {
     this->close();
+}
+
+void PriceDialog::on_box_unit_activated(int index)
+{
+    Q_UNUSED(index)
 }
