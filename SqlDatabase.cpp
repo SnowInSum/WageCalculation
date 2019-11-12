@@ -24,9 +24,29 @@ void SqlDatabase::createTable(const QString table)
     Q_UNUSED(table)
 }
 
-void SqlDatabase::outputTable(const QString table)
+QStringList SqlDatabase::getTables()
+{
+    sql.open();
+
+    QStringList tables = sql.tables();
+
+    sql.close();
+
+    return tables;
+}
+
+void SqlDatabase::outputTable(const QString table, const uint32_t year, const uint32_t moonth)
 {
     Q_UNUSED(table)
+    Q_UNUSED(year)
+    Q_UNUSED(moonth)
+}
+
+void SqlDatabase::getTabletime(const QString table, uint32_t& year, uint32_t& moonth)
+{
+    Q_UNUSED(table)
+    Q_UNUSED(year)
+    Q_UNUSED(moonth)
 }
 
 void SqlDatabase::addPrice(const Price_t price)

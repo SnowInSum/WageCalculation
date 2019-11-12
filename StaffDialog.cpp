@@ -6,7 +6,6 @@ StaffDialog::StaffDialog(QWidget *parent) :
     ui(new Ui::StaffDialog)
 {
     ui->setupUi(this);
-    this->setFixedSize(400, 100);
     this->setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint);
 
     sql = SqlDatabase::getInstance();
