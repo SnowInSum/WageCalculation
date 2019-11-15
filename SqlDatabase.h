@@ -56,8 +56,9 @@ public:
 
     void createTable(const QString table);
     QStringList getTables();
-    void outputTable(const QString table, const uint32_t year, const uint32_t moonth);
-    void getTabletime(const QString table, uint32_t& year, uint32_t& moonth);
+    void outputTable(const QString table, const uint32_t year, const uint32_t month);
+    void getTableOriginalYear(const QString table, QList<int> &year);
+    void getTableOriginalMonth(const QString table, int year, QList<int> &month);
     void addPrice(const Price_t price);
     void addStaff(const Staff_t staff);
     void deletePrice(const Price_t price);

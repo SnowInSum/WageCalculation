@@ -14,6 +14,9 @@ OutputDataDialog::OutputDataDialog(QWidget *parent) :
     sql = SqlDatabase::getInstance();
     QStringList tables = sql->getTables();
     ui->box_tables->addItems(tables);
+
+    tableName = tables.at(0);
+    updateTimedata();
 }
 
 OutputDataDialog::~OutputDataDialog()
@@ -33,8 +36,21 @@ void OutputDataDialog::on_but_output_clicked()
         tableName = ui->box_tables->currentText();
         qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << "table name : " << tableName;
     }
-    sql->outputTable(tableName, year.toUInt(), moonth.toUInt());
+    if (tableYear.isEmpty()) {
+        tableYear = ui->box_year->currentText();
+        tableYear.remove("年");
+        qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << "table year : " << tableYear;
+    }
+    if (tableMonth.isEmpty()) {
+        tableMonth = ui->box_month->currentText();
+        tableMonth.remove("月");
+        qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << "table month : " << tableMonth;
+    }
+
+    sql->outputTable(tableName, tableYear.toUInt(), tableMonth.toUInt());
     tableName.clear();
+    tableYear.clear();
+    tableMonth.clear();
 }
 
 void OutputDataDialog::on_but_cal_clicked()
@@ -46,29 +62,61 @@ void OutputDataDialog::on_box_tables_activated(const QString &arg1)
 {
     tableName = arg1;
     qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << " table name : " << tableName;
+
+    updateTimedata();
 }
 
 void OutputDataDialog::on_box_year_activated(const QString &arg1)
 {
-    year = arg1;
-    if (year.contains("年")) {
-        year.remove("年");
+    tableYear = arg1;
+    tableYear.remove("年");
+    qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << " tableYear : " << tableYear;
+
+    QDate date = QDate::currentDate();
+    int currentYear = date.year();
+    int currentMonth = date.month();
+
+    QStringList strMonth;
+    if (tableYear == currentYear) {
+        for(int i = currentMonth - 1; i >= 1; i--) {
+            strMonth << QString::number(currentMonth) + "年";
+        }
     }
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << " year : " << year;
 }
 
-void OutputDataDialog::on_box_moonth_activated(const QString &arg1)
+void OutputDataDialog::on_box_month_activated(const QString &arg1)
 {
-    moonth = arg1;
-    if (moonth.contains("月")) {
-        moonth.remove("月");
-    }
-    qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << " moonth : " << moonth;
+    tableMonth = arg1;
+    tableMonth.remove("月");
+    qDebug() << __FILE__ << __FUNCTION__ << __LINE__ << " tableMonth : " << tableMonth;
 }
 
 void OutputDataDialog::updateTimedata()
 {
-    uint32_t year, moonth;
-    sql->getTabletime(tableName, year, moonth);
+    QList<int> originalYear, originalMonth;
+    sql->getTableOriginalYear(tableName, originalYear);
+    qSort(originalYear.begin(), originalYear.end());
 
+    QDate date = QDate::currentDate();
+    int currentYear = date.year();
+    int currentMonth = date.month();
+
+    QStringList strYear, strMonth;
+    for(int i = currentYear; i >= originalYear; i--) {
+        strYear << QString::number(currentYear) + "年";
+    }
+    if (originalYear == currentYear) {
+        for(int i = currentMonth - 1; i >= 1; i--) {
+            strMonth << QString::number(currentMonth) + "年";
+        }
+    } else {
+        for(int i = 12; i >= 1; i--) {
+            strMonth << QString::number(currentMonth) + "年";
+        }
+    }
+
+    ui->box_year->clear();
+    ui->box_year->addItems(strYear);
+    ui->box_month->clear();
+    ui->box_month->addItems(strMonth);
 }

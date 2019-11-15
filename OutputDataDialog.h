@@ -30,15 +30,15 @@ private slots:
     void on_but_cal_clicked();
     void on_box_tables_activated(const QString &arg1);
     void on_box_year_activated(const QString &arg1);
-    void on_box_moonth_activated(const QString &arg1);
+    void on_box_month_activated(const QString &arg1);
 
 private:
     Ui::OutputDataDialog *ui;
     SqlDatabase *sql;
 
     QString tableName;
-    QString year;
-    QString moonth;
+    QString tableYear;
+    QString tableMonth;
 
 };
 
